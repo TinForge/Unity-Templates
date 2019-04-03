@@ -6,7 +6,7 @@ using UnityEngine;
 /// Finds and looks at a camera.
 /// Can pivot on y-axis only, smoothing, and min distance
 /// </summary>
-public class FaceCamera : MonoBehaviour
+public class LookAtCamera : MonoBehaviour
 {
 
     private Transform target;
