@@ -5,7 +5,6 @@ using UnityEngine;
 
 /// <summary>
 /// Static singleton to decouple audio and component referencing.
-/// All BUTTON clicks sounds are hooked up using a custom editor gui script.
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
