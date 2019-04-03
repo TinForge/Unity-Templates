@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Quick Camera Controller for testing non-VR
+/// Camera Controller to test scenes quickly
 /// </summary>
 public class CameraController : MonoBehaviour
 {
