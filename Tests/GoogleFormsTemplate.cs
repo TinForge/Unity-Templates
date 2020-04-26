@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,7 +14,7 @@ public class GoogleFormsTemplate : MonoBehaviour
 
 	void Start()
 	{
-		StartCoroutine(SendGFormData("1","2","3"));
+		StartCoroutine(SendGFormData("1", "2", "3"));
 	}
 
 	private static IEnumerator SendGFormData(string nameField, string locationField, string scoreField)
