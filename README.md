@@ -1,2 +1,2 @@
-# Tests
-Prototyping different tools & software within UnityEngine.
+# Unity-Templates
+Code snippets for Unity.
