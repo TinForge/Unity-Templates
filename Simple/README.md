@@ -1,2 +1,2 @@
 # Simple
-Collection of simple code
+Collection of simple code for specific use cases.
