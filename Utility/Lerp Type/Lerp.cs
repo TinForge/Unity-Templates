@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Util
 {
-	public static class LerpType
+	public static class Lerp
 	{
 		/// <summary>
 		/// Ramps when approaching 1
