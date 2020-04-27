@@ -3,7 +3,6 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using VRVision.EditorUtility;
 
 [AttributeUsage(AttributeTargets.Field, Inherited = true)]
 public class HelpAttribute : PropertyAttribute
@@ -28,8 +27,6 @@ public class HelpAttribute : PropertyAttribute
 	}
 }
 
-namespace VRVision.EditorUtility
-{
 #if UNITY_EDITOR
 	[CustomPropertyDrawer(typeof(HelpAttribute))]
 	public class HelpDrawer : PropertyDrawer
@@ -223,4 +220,3 @@ namespace VRVision.EditorUtility
         Error,
     }
 #endif
-}

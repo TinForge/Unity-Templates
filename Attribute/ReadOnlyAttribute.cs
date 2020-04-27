@@ -6,8 +6,6 @@ public class ReadOnlyAttribute : PropertyAttribute
 
 }
 
-namespace VRVision.EditorUtility
-{
 #if UNITY_EDITOR
 	[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 	public class ReadOnlyDrawer : PropertyDrawer
@@ -28,4 +26,3 @@ namespace VRVision.EditorUtility
 		}
 	}
 #endif
-}

@@ -6,14 +6,16 @@ using System.Linq;
 using UnityEngine.Rendering;
 using UnityEditor.Rendering;
 using System.Collections;
+using System;
 
-namespace VRVision.EditorUtility
-{   
-	//QSDK v2.4 Revised WTY
+namespace Editor
+{
 	[InitializeOnLoad]
-	public class QuestSettings : EditorWindow
+	public class OculusQuestSettings : EditorWindow
 	{
 		static bool FinalBuild = false;
+
+		#region Items
 
 		List<List<Item>> items;
 
@@ -77,8 +79,7 @@ namespace VRVision.EditorUtility
 				return true;
 			}
 		}
-
-		#region Short Functions
+		#endregion
 
 		#region Graphics Tier
 		public static void SetGraphicsTier(int i)
@@ -248,6 +249,8 @@ namespace VRVision.EditorUtility
 
 		#endregion
 
+		#region VR Support
+
 		public static bool GetVirtualRealitySupported(BuildTargetGroup group)
 		{
 			return PlayerSettings.GetVirtualRealitySupported(group);
@@ -282,6 +285,8 @@ namespace VRVision.EditorUtility
 
 		#region Items
 
+		static string GetOVRManager() { var ovr = Type.GetType("OVRManager"); if (ovr != null) return ovr.GetMethod("utilitiesVersion").Invoke(null,null).ToString(); else return "Not Found"; }
+
 		static List<Item> GetProjectItems()
 		{
 			var unityVersion = new Item("Unity Version", "2019.1.2f1")
@@ -291,10 +296,10 @@ namespace VRVision.EditorUtility
 				Set = () => { Debug.Log("Open this project in 2019.1.2f1"); }
 			};
 
-			var oculusVersion = new Item("Oculus Integrations Version", OVRManager.utilitiesVersion.ToString())
+			var oculusVersion = new Item("Oculus Integrations Version", GetOVRManager())
 			{
-				IsCorrect = () => { return OVRManager.utilitiesVersion.ToString() == "1.41.0"; },
-				GetCurrent = () => { return OVRManager.utilitiesVersion.ToString(); },
+				IsCorrect = () => { return GetOVRManager() == "1.41.0"; },
+				GetCurrent = () => { return GetOVRManager(); },
 				Set = () => { Debug.Log("Use Oculus Integrations 1.41.0"); }
 			};
 
@@ -577,12 +582,6 @@ namespace VRVision.EditorUtility
 
 		public void OnGUI()
 		{
-			var resourcePath = GetResourcePath();
-			var logo = AssetDatabase.LoadAssetAtPath<Texture2D>(resourcePath + "/vr-vision-logo.png");
-			var rect = GUILayoutUtility.GetRect(position.width, 150, GUI.skin.box);
-			if (logo)
-				GUI.DrawTexture(rect, logo, ScaleMode.ScaleToFit);
-
 			EditorGUILayout.HelpBox("Recommended project settings for Quest:", MessageType.Info);
 
 			GUILayout.FlexibleSpace();
@@ -598,8 +597,9 @@ namespace VRVision.EditorUtility
 				foreach (var entry in item)
 					if (entry.Show())
 						notReadyItems++;
+				GUILayout.Space(5);
 				GUILayout.Label("", GUI.skin.horizontalSlider);
-				GUILayout.FlexibleSpace();
+				GUILayout.Space(5);
 			}
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
@@ -664,9 +664,9 @@ namespace VRVision.EditorUtility
 
 		#region Editor
 
-		static QuestSettings window;
+		static OculusQuestSettings window;
 
-		static QuestSettings()
+		static OculusQuestSettings()
 		{
 			EditorApplication.update += Update;
 		}
@@ -714,33 +714,13 @@ namespace VRVision.EditorUtility
 
 			if (show)
 			{
-				window = GetWindow<QuestSettings>(true);
+				window = GetWindow<OculusQuestSettings>(true);
 				window.minSize = new Vector2(640, 900); //original 640 x 320
 				window.items = items;
 			}
 		}
 
 		#endregion
-
-		#region Other stuff
-
-		string GetResourcePath()
-		{
-			var ms = MonoScript.FromScriptableObject(this);
-			var path = AssetDatabase.GetAssetPath(ms);
-			path = Path.GetDirectoryName(path);
-			return path;
-		}
-
-		public static List<string> GetDefineSymbols(BuildTargetGroup group)
-		{
-			//https://github.com/UnityCommunity/UnityLibrary/blob/master/Assets/Scripts/Editor/AddDefineSymbols.cs
-			var symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(group);
-			return symbols.Split(';').ToList();
-		}
-
-		#endregion
-
 
 	}
 }
