@@ -5,7 +5,6 @@ Provides static methods for different lerp functions.
 ##
 ![enter image description here](https://chicounity3d.files.wordpress.com/2014/05/interp-sinerp.png?w=300&h=185)
 
-float t = currentLerpTime / lerpTime;
 t = Mathf.Sin(t * Mathf.PI * 0.5f);
 ##
 ![enter image description here](https://chicounity3d.files.wordpress.com/2014/05/interp-coserp.png?w=300&h=185)
