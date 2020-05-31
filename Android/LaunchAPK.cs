@@ -9,15 +9,13 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine.SceneManagement;
 
-namespace VRVision.Utility
+public class LaunchAPK : MonoBehaviour
 {
-	public class APK_Launcher : MonoBehaviour
+	/// <summary>
+	/// Launches an APK, doesn't destroy current app instance
+	/// </summary>
+	public static void Load(string bundle)
 	{
-		/// <summary>
-		/// Launches an APK, doesn't destroy current app instance
-		/// </summary>
-		public static void LaunchApk(string bundle)
-		{
 #if UNITY_ANDROID
 			bool fail = false;
 			string bundleId = bundle; // your target bundle id
@@ -48,17 +46,16 @@ namespace VRVision.Utility
 			packageManager.Dispose();
 			launchIntent.Dispose();
 #endif
-		}
+	}
 
-		/// <summary>
-		/// Launches an APK, destroys current app instance
-		/// </summary>
-		public static void LaunchApkKillCurrent(string bundle)
-		{
+	/// <summary>
+	/// Launches an APK, destroys current app instance
+	/// </summary>
+	public static void LaunchApkKillCurrent(string bundle)
+	{
+		Load(bundle);
 #if UNITY_ANDROID
-			LaunchApk(bundle);
 			System.Diagnostics.Process.GetCurrentProcess().Kill();
 #endif
-		}
 	}
 }

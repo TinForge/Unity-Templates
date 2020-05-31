@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Camera Controller to test scenes quickly
 /// </summary>
-public class CameraController : MonoBehaviour
+public class SimpleCameraController : MonoBehaviour
 {
     [SerializeField] private float zMove;
     [SerializeField] private float xMove;
@@ -14,6 +14,12 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float xLook;
 
     [SerializeField] private bool stop;
+
+    private void Awake()
+    {
+        if (GetComponentInChildren<Camera>() == null)
+            Debug.LogError("Camera not found for SimpleCameraController");
+    }
 
     void Start()
     {
