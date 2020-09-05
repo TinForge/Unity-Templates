@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace VRVision.Quest
+namespace TinForge.Quest
 {
 	//QSDK v2.4 Revised WTY
 	[DisallowMultipleComponent]

@@ -1,52 +1,69 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
-/// <summary>
-/// Ping pong position/rotation for dynamic scenery
-/// </summary>
 public class RepetitiveMotion : MonoBehaviour
 {
-    /*
-    [SerializeField] private float posTime = 1;
-    [SerializeField] private float posX;
-    [SerializeField] private float posY;
-    [SerializeField] private float posZ;
-    */
+	[Help("Ping pong position/rotation for dynamic scenery. Completely overrides position/rotation.")]
 
-    [SerializeField] private float rotTime = 1;
-    [SerializeField] private float rotX;
-    [SerializeField] private float rotY;
-    [SerializeField] private float rotZ;
+	[SerializeField] private bool smoothStep;
+	[SerializeField] private bool localSpace;
+	[Space]
+	[SerializeField] private bool usePosition;
+	[SerializeField] private float posTime = 1;
+	[SerializeField] private float posX = 0;
+	[SerializeField] private float posY = 0;
+	[SerializeField] private float posZ = 0;
+	[Space]
+	[SerializeField] private bool useRotation;
+	[SerializeField] private float rotTime = 1;
+	[SerializeField] private float rotX = 0;
+	[SerializeField] private float rotY = 0;
+	[SerializeField] private float rotZ = 0;
 
-    //private Vector3 posOffset;
-    private Vector3 rotOffset;
+	private Vector3 posOffset;
+	private Vector3 rotOffset;
+	private float t = 0;
+	private float posLerp;
+	private float rotLerp;
 
-    void Start()
-    {
-        //posOffset = transform.position;
-        rotOffset = transform.eulerAngles;
-    }
+	void Start()
+	{
+		posOffset = localSpace ? transform.localPosition : transform.position;
+		rotOffset = localSpace ? transform.localEulerAngles : transform.eulerAngles;
+	}
 
-    void Update()
-    {
-        /*
-        float pX = Mathf.PingPong(Time.unscaledTime * (posTime * 1f), posX * 2) - posX;
-        float pY = Mathf.PingPong(Time.unscaledTime * (posTime * 0.9f), posY * 2) - posY;
-        float pZ = Mathf.PingPong(Time.unscaledTime * (posTime * 0.8f), posZ * 2) - posZ;
-        */
+	void Update()
+	{
+		t += Time.deltaTime;
+		posLerp = Mathf.PingPong(t / posTime, 1);
+		rotLerp = Mathf.PingPong(t / rotTime, 1);
 
-        float rX = Mathf.PingPong(Time.unscaledTime * rotTime, rotX * 2) - rotX;
-        float rY = Mathf.PingPong(Time.unscaledTime * rotTime, rotY * 2) - rotY;
-        float rZ = Mathf.PingPong(Time.unscaledTime * rotTime, rotZ * 2) - rotZ;
+		if (smoothStep)
+		{
+			posLerp = Mathf.Cos(posLerp * Mathf.PI);
+			rotLerp = Mathf.Cos(rotLerp * Mathf.PI);
+		}
 
-        /*
-        if (pX != 0 || pY != 0 || pZ != 0)
-            transform.position = posOffset + new Vector3(pX, pY, pZ);
-        */
+		float pX = posX * posLerp;
+		float pY = posY * posLerp;
+		float pZ = posZ * posLerp;
 
-        if (rX != 0 || rY != 0 || rZ != 0) //if any equals 0, throws a quaternion error
-            transform.eulerAngles = rotOffset + new Vector3(rX, rY, rZ);
+		float rX = rotX * rotLerp;
+		float rY = rotY * rotLerp;
+		float rZ = rotZ * rotLerp;
 
-    }
+		if (usePosition)
+			if (localSpace)
+				transform.localPosition = posOffset + new Vector3(pX, pY, pZ);
+			else
+				transform.position = posOffset + new Vector3(pX, pY, pZ);
+		if (useRotation)
+			if (localSpace)
+				transform.localEulerAngles = rotOffset + new Vector3(rX, rY, rZ);
+			else
+				transform.eulerAngles = rotOffset + new Vector3(rX, rY, rZ);
+
+	}
 }

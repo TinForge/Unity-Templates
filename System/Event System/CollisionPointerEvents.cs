@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace VRVision.Quest
+namespace TinForge.Quest
 {
 	//QSDK v2.4 Revised WTY
 	public class CollisionPointerEvents : MonoBehaviour

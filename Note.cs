@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace VRVision.EditorUtility
+namespace TinForge.EditorTools
 {
-	public class DevInfo : MonoBehaviour
+	public class Note : MonoBehaviour
 	{
 		[TextArea(5, 25)]
 		[SerializeField] private string text;

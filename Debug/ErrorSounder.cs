@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace VRVision.Quest
+namespace TinForge.Quest
 {
 	/// <summary>
 	/// A debugging tool that will play a sound when an error occurs on the headset
